@@ -23,7 +23,10 @@ function setup() {
   let endX = Math.floor(Math.random() * ROW_COUNT)
   let endY = Math.floor(Math.random() * ROW_COUNT)
 
-  while ((endX === startX && endY === startY) || (Math.abs(endY - startY) < 5 && Math.abs(endX - startX) < 5)) {
+  while (
+    (endX === startX && endY === startY) ||
+    (Math.abs(endY - startY) < 5 && Math.abs(endX - startX) < 5)
+  ) {
     endX = Math.floor(Math.random() * ROW_COUNT)
     endY = Math.floor(Math.random() * ROW_COUNT)
   }
@@ -31,8 +34,8 @@ function setup() {
   for (let i = 0; i < ROW_COUNT; i++) {
     tiles[i] = []
     for (let j = 0; j < COLUMN_COUNT; j++) {
-      const isStart = (startX === i && startY === j)
-      const isEnd = (endX === i && endY === j)
+      const isStart = startX === i && startY === j
+      const isEnd = endX === i && endY === j
       tiles[i][j] = new Tile(i, j, TILE_SIZE, isStart, isEnd)
 
       if (isStart) {
@@ -49,7 +52,7 @@ function draw() {
   if (keepPlaying) {
     move()
   } else {
-    resetTiles();
+    resetTiles()
     keepPlaying = true
     won = false
     currentTile = startTile
@@ -68,18 +71,19 @@ function move() {
       continue
     }
     for (let j = -1; j <= 1; j++) {
-      console.log(tiles);
-      console.log(currentTile);
+      console.log(tiles)
+      console.log(currentTile)
 
-
-      if (tiles[currentTile.pos.x + i][currentTile.pos.y + j] && !tiles[currentTile.pos.x + i][currentTile.pos.y + j].filled) {
+      if (
+        tiles[currentTile.pos.x + i][currentTile.pos.y + j] &&
+        !tiles[currentTile.pos.x + i][currentTile.pos.y + j].filled
+      ) {
         availableMoves.push(tiles[currentTile.pos.x + i][currentTile.pos.y + j])
       }
     }
   }
 
-  console.log(availableMoves);
-
+  console.log(availableMoves)
 
   if (availableMoves.length === 0) {
     keepPlaying = false
@@ -97,7 +101,8 @@ function move() {
     return
   }
 
-  const nextTile = availableMoves[Math.floor(Math.random() * availableMoves.length)]
+  const nextTile =
+    availableMoves[Math.floor(Math.random() * availableMoves.length)]
   nextTile.filled = true
   currentTile = nextTile
   if (currentTile.isEnd) {
@@ -107,5 +112,5 @@ function move() {
 }
 
 function resetTiles() {
-  tiles.forEach(r => r.forEach(t => t.filled = false))
+  tiles.forEach(r => r.forEach(t => (t.filled = false)))
 }
