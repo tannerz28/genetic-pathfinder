@@ -6,7 +6,6 @@ const TILE_SIZE = CANVAS_WIDTH / COLUMN_COUNT
 let currentTile
 let won = false
 let keepPlaying = true
-const startTime = Date.now()
 let startTile
 
 /**
@@ -71,9 +70,6 @@ function move() {
       continue
     }
     for (let j = -1; j <= 1; j++) {
-      console.log(tiles)
-      console.log(currentTile)
-
       if (
         tiles[currentTile.pos.x + i][currentTile.pos.y + j] &&
         !tiles[currentTile.pos.x + i][currentTile.pos.y + j].filled
@@ -83,11 +79,8 @@ function move() {
     }
   }
 
-  console.log(availableMoves)
-
   if (availableMoves.length === 0) {
     keepPlaying = false
-    console.log(Date.now() - startTime)
     return
   }
 
