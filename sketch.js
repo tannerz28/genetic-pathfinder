@@ -1,12 +1,20 @@
+// GAME CONSTANTS
 const CANVAS_WIDTH = 600
 const CANVAS_HEIGHT = 600
 const ROW_COUNT = 20
 const COLUMN_COUNT = 20
 const TILE_SIZE = CANVAS_WIDTH / COLUMN_COUNT
+
+// GAME STATE
 let currentTile
 let won = false
 let keepPlaying = true
 let startTile
+let currentScore = 0
+
+// AI CONSTANTS
+const POPULATION_SIZE = 200
+const MUTATION_RATE = 0.01
 
 /**
  * @type {Tile[][]}
@@ -43,19 +51,26 @@ function setup() {
       }
     }
   }
+  displayStats()
 }
 
 function draw() {
   background(188, 188, 188)
   drawTiles()
+
   if (keepPlaying) {
     move()
+    calculateScore()
   } else {
     resetTiles()
     keepPlaying = true
     won = false
     currentTile = startTile
   }
+}
+
+function update() {
+
 }
 
 function drawTiles() {
@@ -106,4 +121,17 @@ function move() {
 
 function resetTiles() {
   tiles.forEach(r => r.forEach(t => (t.filled = false)))
+}
+
+function calculateScore() {
+  const distance = Math.sqrt(
+    Math.pow(currentTile.pos.x, 2) + Math.pow(currentTile.pos.y, 2)
+  )
+
+  currentScore = 1 / distance
+}
+
+function displayStats() {
+  createElement('h2', 'Info')
+  createDiv('Current Score:' + currentScore)
 }
